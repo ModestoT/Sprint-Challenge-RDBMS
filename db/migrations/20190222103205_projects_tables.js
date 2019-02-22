@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema
-        .createTable('project', project => {
+        .createTable('projects', project => {
             project.increments();
             project.string('name', 100).notNullable();
             project.string('description', 255).notNullable();
@@ -16,12 +16,12 @@ exports.up = function(knex, Promise) {
                 .integer('projectID')
                 .unsigned()
                 .references('id')
-                .inTable('project')
+                .inTable('projects')
                 .onDelete('CASCADE')
                 .onUpdate('CASCADE');
         });
 };
 
 exports.down = function(knex, Promise) {
-  
+    return knex.schema.dropTableIfExists('projects').dropTableIfExists('actions');
 };
