@@ -1,15 +1,15 @@
 const db = require('../../db/dbconfig.js');
 
 module.exports = {
-    getProjects,
-    addProject
+    getActions,
+    addAction
 };
 
-function getProjects() {
-    return db('projects');
+function getActions() {
+    return db('actions');
 }
 
-function addProject(project) {
-    return db('projects')
-        .insert(project);
+function addAction(actions) {
+    return db('actions')
+        .insert(actions);
 }
