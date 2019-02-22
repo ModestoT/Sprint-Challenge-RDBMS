@@ -4,7 +4,8 @@ module.exports = {
     getActions,
     addAction,
     updateAction,
-    deleteAction
+    deleteAction,
+    getActionById
 };
 
 function getActions() {
