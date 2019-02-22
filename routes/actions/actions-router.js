@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    if(!req.body.name){
-        res.status(400).json({ error: 'The Actions requires a name' });
+    if(!req.body.description || !req.body.notes || !req.body.projectID){
+        res.status(400).json({ error: 'Please ensure that the action has a description, notes and a project id that it is associated with' });
     } else {
          try {
              const actions = await Actions.addAction(req.body);

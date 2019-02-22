@@ -3,7 +3,9 @@ const db = require('../../db/dbconfig.js');
 module.exports = {
     getProjects,
     addProject,
-    getProjectById
+    getProjectById,
+    deleteProject,
+    updateProject
 }
 
 function getProjects() {
@@ -41,10 +43,18 @@ function getProjectById(id) {
 function getProjectActions(id) {
     return db('actions')
         .where('projectID', id)
-        .then( actions => 
-            actions.map( 
-                action => {
-                     return {
-                          ...action 
-                        }}));
+        .then( actions => actions.map( action => { return { ...action }}));
+}
+
+function deleteProject(id) {
+    return db('projects')
+        .where({ id })
+        .del();
+}
+
+function updateProject(id, changes) {   
+    return db('projects')
+        .where({ id })
+        .update(changes)
+        .then(updated => (updated > 0 ? getProjectById(id) : null ));
 }
