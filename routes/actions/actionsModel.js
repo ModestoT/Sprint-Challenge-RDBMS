@@ -1,7 +1,8 @@
 const db = require('../../db/dbconfig.js');
 
 module.exports = {
-
+    getProjects,
+    addProject
 };
 
 function getProjects() {
