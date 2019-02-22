@@ -55,5 +55,20 @@ router.put('/:id', async (req, res) => {
             res.status(500).json({ error: 'The Project could not be updated' });
         }
     }
-})
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const deleted = await Projects.deleteProject(req.params.id);
+
+        if(deleted) {
+            res.status(200).json({ message: 'Project was succesfully deleted'});
+        } else {
+            res.status(400).json({ error: 'The project with that id does not exist'});
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'The project could not be deleted '});
+    }
+ })
 module.exports = router;
