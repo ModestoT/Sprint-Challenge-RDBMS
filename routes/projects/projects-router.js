@@ -29,4 +29,18 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    if(!req.body.name){
+        res.status(400).json({ error: 'The Project requires a name' });
+    } else {
+         try {
+             const project = await Projects.addProject(req.body);
+             res.status(200).json(project);
+         } catch (error) {
+             console.log(error);
+             res.status(500).json({ error: 'The Projects could not be added to the Database' });
+         }
+    }
+});
+
 module.exports = router;
