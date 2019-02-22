@@ -18,9 +18,10 @@ function getActionById(id) {
         .first();
 }
 
-function addAction(actions) {
+function addAction(action) {
     return db('actions')
-        .insert(actions);
+        .insert(action)
+        .then(action => (action.length <= 1 ? getActionById(action[0]) : null ));
 }
 
 function updateAction(id, changes) {

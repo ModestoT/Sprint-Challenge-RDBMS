@@ -30,16 +30,44 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    if(!req.body.description || !req.body.notes || !req.body.projectID){
-        res.status(400).json({ error: 'Please ensure that the action has a description, notes and a project id that it is associated with' });
+    
+    if(req.body.length > 0){
+        const actions = req.body;
+        for(let i = 0; i < actions.length; i ++){
+            if(!req.body[i].notes || !req.body[i].description || !req.body[i].projectID){
+                res.status(400).json({ error: 'Please ensure that the actions hav a description, notes and a project id that they are associated with' })
+            }
+        }
+
+        try {
+            const newActions = await Actions.addAction(req.body);
+            res.status(200).json(actions);
+        } catch (error) {
+            console.log(error);
+            if(error.errno === 19){
+                res.status(404).json({ error: 'The project by that ID does not exist' });
+            } else {
+                res.status(500).json({ error: 'The Actions could not be added to the Database' });
+            }
+        }
+        
     } else {
-         try {
-             const actions = await Actions.addAction(req.body);
-             res.status(200).json(actions);
-         } catch (error) {
-             console.log(error);
-             res.status(500).json({ error: 'The Actions could not be added to the Database' });
-         }
+        if(!req.body.description || !req.body.notes || !req.body.projectID){
+            res.status(400).json({ error: 'Please ensure that the action has a description, notes and a project id that it is associated with' });
+        } else {
+             try {
+                 const actions = await Actions.addAction(req.body);
+                 
+                 res.status(200).json(actions);
+             } catch (error) {
+                 console.log(error);
+                 if(error.errno === 19){
+                    res.status(404).json({ error: 'The project by that ID does not exist' });
+                 } else {
+                    res.status(500).json({ error: 'The Action could not be added to the Database' });
+                 }
+             }
+        }
     }
 });
 
