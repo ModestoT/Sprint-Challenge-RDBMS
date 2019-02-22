@@ -70,5 +70,6 @@ router.delete('/:id', async (req, res) => {
         console.log(error);
         res.status(500).json({ error: 'The project could not be deleted '});
     }
- })
+});
+
 module.exports = router;
